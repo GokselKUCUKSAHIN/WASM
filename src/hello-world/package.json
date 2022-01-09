@@ -1,0 +1,27 @@
+{
+  "name": "hello-world",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tests",
+    "asbuild:untouched": "asc assembly/index.ts --target debug",
+    "asbuild:optimized": "asc assembly/index.ts --target release",
+    "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized"
+  },
+  "keywords": [
+    "assembly",
+    "script",
+    "webassembly",
+    "typescript"
+  ],
+  "author": "Goksel KUCUKSAHIN <gokselkucuksahin@gmail.com> (https://github.com/GokselKUCUKSAHIN)",
+  "license": "MIT",
+  "dependencies": {
+    "@assemblyscript/loader": "^0.19.22"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.8",
+    "assemblyscript": "^0.19.22"
+  }
+}
