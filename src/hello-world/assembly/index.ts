@@ -6,7 +6,6 @@ declare function formatLog(arg0: i32): void;
 export {mul} from "./external"
 
 export function addLog(a: i32, b: i32): i32 {
-  Math
   const sum: i32 = a + b;
   formatLog(sum);
   return sum;
