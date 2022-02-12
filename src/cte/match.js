@@ -3,7 +3,9 @@ function eq(array, other) {
   if (other === undefined || !Array.isArray(other)) return false;
   if (array.length !== other.length) return false;
   let flag = true;
-  for (let i = 0; i < array.length && flag; i++) if (array[i] !== other[i]) flag = false;
+  for (let i = 0; i < array.length && flag; i++)
+    if (array[i] !== other[i])
+      flag = false;
   return flag;
 }
 
