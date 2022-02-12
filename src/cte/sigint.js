@@ -9,8 +9,9 @@ setTimeout(_ => {
   shouldIExit = true;
 }, 5000);
 
+
 process.on('SIGINT', function () {
-  console.log("Caught interrupt signal");
+  console.log("\nCaught interrupt signal");
   if (shouldIExit)
     process.exit();
 });
@@ -20,8 +21,11 @@ process.on("beforeExit", _ => {
 });
 
 process.on("exit", _ => {
-  console.log("Exit called")
+  console.log("exit called");
+  console.log("mongodb connection closed");
 });
 
+
 console.log("some code that takes some time");
-sleep(6000).then(v => clearInterval(int));
+// sleep(7000).then(v => clearInterval(int));
+sleep(10000).then(v => process.exit(0));
