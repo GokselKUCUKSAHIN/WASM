@@ -1,10 +1,10 @@
 (module
- (type $i32_=>_none (func (param i32)))
  (type $i32_=>_i32 (func (param i32) (result i32)))
+ (type $i32_=>_none (func (param i32)))
  (type $none_=>_none (func))
  (type $i32_i32_i32_=>_i32 (func (param i32 i32 i32) (result i32)))
- (type $i32_i32_=>_i32 (func (param i32 i32) (result i32)))
  (type $i32_i32_=>_none (func (param i32 i32)))
+ (type $i32_i32_=>_i32 (func (param i32 i32) (result i32)))
  (type $f32_=>_f32 (func (param f32) (result f32)))
  (type $i32_i32_i32_i32_i32_=>_i32 (func (param i32 i32 i32 i32 i32) (result i32)))
  (type $i32_i32_i32_i32_=>_none (func (param i32 i32 i32 i32)))
@@ -75,7 +75,9 @@
  (export "reduceImageData" (func $export:assembly/index/reduceImageData))
  (export "isLineDrawn" (func $export:assembly/index/isLineDrawn))
  (export "isPinTooClose" (func $export:assembly/index/isPinTooClose))
- (export "imgToGrayScale" (func $export:assembly/index/imgToGrayScale))
+ (export "grayScale" (func $export:assembly/index/grayScale))
+ (export "monoToRGBA" (func $export:assembly/index/monoToRGBA))
+ (export "imageToGrayScale" (func $export:assembly/index/imageToGrayScale))
  (start $~start)
  (func $assembly/index/abs (param $0 i32) (result i32)
   local.get $0
@@ -3494,6 +3496,188 @@
   global.set $~lib/memory/__stack_pointer
   local.get $0
  )
+ (func $assembly/index/grayScale (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.sub
+  global.set $~lib/memory/__stack_pointer
+  global.get $~lib/memory/__stack_pointer
+  i32.const 1788
+  i32.lt_s
+  if
+   i32.const 18192
+   i32.const 18240
+   i32.const 1
+   i32.const 1
+   call $~lib/builtins/abort
+   unreachable
+  end
+  global.get $~lib/memory/__stack_pointer
+  local.tee $2
+  i32.const 0
+  i32.store
+  local.get $2
+  local.get $0
+  i32.load offset=8
+  i32.const 4
+  i32.div_s
+  local.tee $3
+  i32.extend16_s
+  call $~lib/typedarray/Uint8Array#constructor
+  local.tee $5
+  i32.store
+  loop $for-loop|0
+   local.get $3
+   i32.extend16_s
+   local.get $1
+   i32.gt_s
+   if
+    local.get $1
+    local.get $5
+    i32.load offset=4
+    i32.add
+    local.get $0
+    i32.load offset=4
+    local.tee $4
+    local.get $1
+    i32.const 2
+    i32.shl
+    local.tee $2
+    i32.add
+    i32.load8_u
+    f64.convert_i32_u
+    f64.const 0.299
+    f64.mul
+    local.get $2
+    i32.const 1
+    i32.add
+    local.get $4
+    i32.add
+    i32.load8_u
+    f64.convert_i32_u
+    f64.const 0.587
+    f64.mul
+    f64.add
+    local.get $2
+    i32.const 2
+    i32.add
+    local.get $4
+    i32.add
+    i32.load8_u
+    f64.convert_i32_u
+    f64.const 0.114
+    f64.mul
+    f64.add
+    i32.trunc_f64_u
+    i32.store8
+    local.get $1
+    i32.const 1
+    i32.add
+    local.set $1
+    br $for-loop|0
+   end
+  end
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.add
+  global.set $~lib/memory/__stack_pointer
+  local.get $5
+ )
+ (func $assembly/index/monoToRGBA (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.sub
+  global.set $~lib/memory/__stack_pointer
+  global.get $~lib/memory/__stack_pointer
+  i32.const 1788
+  i32.lt_s
+  if
+   i32.const 18192
+   i32.const 18240
+   i32.const 1
+   i32.const 1
+   call $~lib/builtins/abort
+   unreachable
+  end
+  global.get $~lib/memory/__stack_pointer
+  local.tee $2
+  i32.const 0
+  i32.store
+  local.get $2
+  local.get $0
+  i32.load offset=8
+  local.tee $3
+  i32.const 2
+  i32.shl
+  call $~lib/typedarray/Uint8Array#constructor
+  local.tee $5
+  i32.store
+  loop $for-loop|0
+   local.get $1
+   local.get $3
+   i32.lt_s
+   if
+    local.get $1
+    i32.const 2
+    i32.shl
+    local.tee $4
+    local.get $5
+    i32.load offset=4
+    i32.add
+    local.get $1
+    local.get $0
+    i32.load offset=4
+    i32.add
+    i32.load8_u
+    local.tee $2
+    i32.store8
+    local.get $5
+    i32.load offset=4
+    local.get $4
+    i32.const 1
+    i32.add
+    i32.add
+    local.get $2
+    i32.store8
+    local.get $5
+    i32.load offset=4
+    local.get $4
+    i32.const 2
+    i32.add
+    i32.add
+    local.get $2
+    i32.store8
+    local.get $5
+    i32.load offset=4
+    local.get $4
+    i32.const 3
+    i32.add
+    i32.add
+    i32.const 255
+    i32.store8
+    local.get $1
+    i32.const 1
+    i32.add
+    local.set $1
+    br $for-loop|0
+   end
+  end
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.add
+  global.set $~lib/memory/__stack_pointer
+  local.get $5
+ )
  (func $export:assembly/index/getImageData (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
   (local $4 i32)
   global.get $~lib/memory/__stack_pointer
@@ -3978,11 +4162,60 @@
   i32.const 25
   i32.lt_s
  )
- (func $export:assembly/index/imgToGrayScale (param $0 i32) (param $1 i32) (result i32)
-  (local $2 i32)
-  (local $3 i32)
-  (local $4 i32)
-  (local $5 i32)
+ (func $export:assembly/index/grayScale (param $0 i32) (result i32)
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.sub
+  global.set $~lib/memory/__stack_pointer
+  global.get $~lib/memory/__stack_pointer
+  i32.const 1788
+  i32.lt_s
+  if
+   i32.const 18192
+   i32.const 18240
+   i32.const 1
+   i32.const 1
+   call $~lib/builtins/abort
+   unreachable
+  end
+  global.get $~lib/memory/__stack_pointer
+  local.get $0
+  i32.store
+  local.get $0
+  call $assembly/index/grayScale
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.add
+  global.set $~lib/memory/__stack_pointer
+ )
+ (func $export:assembly/index/monoToRGBA (param $0 i32) (result i32)
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.sub
+  global.set $~lib/memory/__stack_pointer
+  global.get $~lib/memory/__stack_pointer
+  i32.const 1788
+  i32.lt_s
+  if
+   i32.const 18192
+   i32.const 18240
+   i32.const 1
+   i32.const 1
+   call $~lib/builtins/abort
+   unreachable
+  end
+  global.get $~lib/memory/__stack_pointer
+  local.get $0
+  i32.store
+  local.get $0
+  call $assembly/index/monoToRGBA
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.add
+  global.set $~lib/memory/__stack_pointer
+ )
+ (func $export:assembly/index/imageToGrayScale (param $0 i32) (result i32)
+  (local $1 i32)
   global.get $~lib/memory/__stack_pointer
   i32.const 4
   i32.sub
@@ -4005,72 +4238,16 @@
    i32.lt_s
    br_if $folding-inner0
    global.get $~lib/memory/__stack_pointer
-   local.tee $1
    i32.const 0
    i32.store
-   local.get $1
    local.get $0
-   i32.load offset=8
-   i32.const 4
-   i32.div_s
-   local.tee $5
-   i32.extend16_s
-   call $~lib/typedarray/Uint8Array#constructor
-   local.tee $2
+   call $assembly/index/grayScale
+   local.set $0
+   global.get $~lib/memory/__stack_pointer
+   local.get $0
    i32.store
-   i32.const 0
-   local.set $1
-   loop $for-loop|0
-    local.get $5
-    i32.extend16_s
-    local.get $1
-    i32.gt_s
-    if
-     local.get $1
-     local.get $2
-     i32.load offset=4
-     i32.add
-     local.get $0
-     i32.load offset=4
-     local.tee $3
-     local.get $1
-     i32.const 2
-     i32.shl
-     local.tee $4
-     i32.add
-     i32.load8_u
-     f64.convert_i32_u
-     f64.const 0.299
-     f64.mul
-     local.get $4
-     i32.const 1
-     i32.add
-     local.get $3
-     i32.add
-     i32.load8_u
-     f64.convert_i32_u
-     f64.const 0.587
-     f64.mul
-     f64.add
-     local.get $4
-     i32.const 2
-     i32.add
-     local.get $3
-     i32.add
-     i32.load8_u
-     f64.convert_i32_u
-     f64.const 0.114
-     f64.mul
-     f64.add
-     i32.trunc_f64_u
-     i32.store8
-     local.get $1
-     i32.const 1
-     i32.add
-     local.set $1
-     br $for-loop|0
-    end
-   end
+   local.get $0
+   call $assembly/index/monoToRGBA
    global.get $~lib/memory/__stack_pointer
    i32.const 4
    i32.add
@@ -4079,7 +4256,6 @@
    i32.const 4
    i32.add
    global.set $~lib/memory/__stack_pointer
-   local.get $2
    return
   end
   i32.const 18192

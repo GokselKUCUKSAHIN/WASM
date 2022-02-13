@@ -2,8 +2,8 @@
  (type $i32_i32_=>_none (func (param i32 i32)))
  (type $i32_=>_i32 (func (param i32) (result i32)))
  (type $i32_=>_none (func (param i32)))
- (type $i32_i32_=>_i32 (func (param i32 i32) (result i32)))
  (type $i32_i32_i32_=>_i32 (func (param i32 i32 i32) (result i32)))
+ (type $i32_i32_=>_i32 (func (param i32 i32) (result i32)))
  (type $i32_i32_i32_=>_none (func (param i32 i32 i32)))
  (type $none_=>_none (func))
  (type $f32_=>_f32 (func (param f32) (result f32)))
@@ -85,7 +85,9 @@
  (export "reduceImageData" (func $export:assembly/index/reduceImageData))
  (export "isLineDrawn" (func $export:assembly/index/isLineDrawn))
  (export "isPinTooClose" (func $export:assembly/index/isPinTooClose))
- (export "imgToGrayScale" (func $export:assembly/index/imgToGrayScale))
+ (export "grayScale" (func $export:assembly/index/grayScale))
+ (export "monoToRGBA" (func $export:assembly/index/monoToRGBA))
+ (export "imageToGrayScale" (func $export:assembly/index/imageToGrayScale))
  (start $~start)
  (func $assembly/index/abs (param $0 i32) (result i32)
   local.get $0
@@ -4431,6 +4433,31 @@
    unreachable
   end
  )
+ (func $assembly/index/imageToGrayScale (param $0 i32) (result i32)
+  (local $1 i32)
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.sub
+  global.set $~lib/memory/__stack_pointer
+  call $~stack_check
+  global.get $~lib/memory/__stack_pointer
+  i32.const 0
+  i32.store
+  local.get $0
+  call $assembly/index/grayScale
+  local.set $1
+  global.get $~lib/memory/__stack_pointer
+  local.get $1
+  i32.store
+  local.get $1
+  call $assembly/index/monoToRGBA
+  local.set $1
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.add
+  global.set $~lib/memory/__stack_pointer
+  local.get $1
+ )
  (func $~lib/arraybuffer/ArrayBufferView#constructor (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
   (local $3 i32)
   (local $4 i32)
@@ -4990,7 +5017,8 @@
   global.set $~lib/memory/__stack_pointer
   local.get $16
  )
- (func $assembly/index/imgToGrayScale (param $0 i32) (param $1 i32) (result i32)
+ (func $assembly/index/grayScale (param $0 i32) (result i32)
+  (local $1 i32)
   (local $2 i32)
   (local $3 i32)
   (local $4 i32)
@@ -4999,7 +5027,6 @@
   (local $7 i32)
   (local $8 i32)
   (local $9 i32)
-  (local $10 i32)
   global.get $~lib/memory/__stack_pointer
   i32.const 4
   i32.sub
@@ -5012,82 +5039,166 @@
   call $~lib/typedarray/Uint8Array#get:length
   i32.const 4
   i32.div_s
-  local.set $2
+  local.set $1
   global.get $~lib/memory/__stack_pointer
   i32.const 0
-  local.get $2
+  local.get $1
   i32.extend16_s
   call $~lib/typedarray/Uint8Array#constructor
-  local.tee $3
+  local.tee $2
   i32.store
   i32.const 0
-  local.set $4
+  local.set $3
   loop $for-loop|0
-   local.get $4
-   local.get $2
+   local.get $3
+   local.get $1
    i32.extend16_s
    i32.lt_s
-   local.set $5
-   local.get $5
+   local.set $4
+   local.get $4
    if
     local.get $0
     i32.const 4
-    local.get $4
+    local.get $3
     i32.mul
+    call $~lib/typedarray/Uint8Array#__uget
+    local.set $5
+    local.get $0
+    i32.const 4
+    local.get $3
+    i32.mul
+    i32.const 1
+    i32.add
     call $~lib/typedarray/Uint8Array#__uget
     local.set $6
     local.get $0
     i32.const 4
-    local.get $4
-    i32.mul
-    i32.const 1
-    i32.add
-    call $~lib/typedarray/Uint8Array#__uget
-    local.set $7
-    local.get $0
-    i32.const 4
-    local.get $4
+    local.get $3
     i32.mul
     i32.const 2
     i32.add
     call $~lib/typedarray/Uint8Array#__uget
-    local.set $8
+    local.set $7
     f64.const 0.299
-    local.get $6
+    local.get $5
     f64.convert_i32_u
     f64.mul
     f64.const 0.587
-    local.get $7
+    local.get $6
     f64.convert_i32_u
     f64.mul
     f64.add
     f64.const 0.114
-    local.get $8
+    local.get $7
     f64.convert_i32_u
     f64.mul
     f64.add
     i32.trunc_f64_u
-    local.set $9
+    local.set $8
+    local.get $2
     local.get $3
-    local.get $4
-    local.get $9
+    local.get $8
     i32.const 255
     i32.and
     call $~lib/typedarray/Uint8Array#__uset
-    local.get $4
+    local.get $3
     i32.const 1
     i32.add
-    local.set $4
+    local.set $3
     br $for-loop|0
    end
   end
-  local.get $3
-  local.set $10
+  local.get $2
+  local.set $9
   global.get $~lib/memory/__stack_pointer
   i32.const 4
   i32.add
   global.set $~lib/memory/__stack_pointer
-  local.get $10
+  local.get $9
+ )
+ (func $assembly/index/monoToRGBA (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (local $6 i32)
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.sub
+  global.set $~lib/memory/__stack_pointer
+  call $~stack_check
+  global.get $~lib/memory/__stack_pointer
+  i32.const 0
+  i32.store
+  local.get $0
+  call $~lib/typedarray/Uint8Array#get:length
+  local.set $1
+  global.get $~lib/memory/__stack_pointer
+  i32.const 0
+  local.get $1
+  i32.const 4
+  i32.mul
+  call $~lib/typedarray/Uint8Array#constructor
+  local.tee $2
+  i32.store
+  i32.const 0
+  local.set $3
+  loop $for-loop|0
+   local.get $3
+   local.get $1
+   i32.lt_s
+   local.set $4
+   local.get $4
+   if
+    local.get $0
+    local.get $3
+    call $~lib/typedarray/Uint8Array#__uget
+    local.set $5
+    local.get $2
+    i32.const 4
+    local.get $3
+    i32.mul
+    local.get $5
+    call $~lib/typedarray/Uint8Array#__uset
+    local.get $2
+    i32.const 4
+    local.get $3
+    i32.mul
+    i32.const 1
+    i32.add
+    local.get $5
+    call $~lib/typedarray/Uint8Array#__uset
+    local.get $2
+    i32.const 4
+    local.get $3
+    i32.mul
+    i32.const 2
+    i32.add
+    local.get $5
+    call $~lib/typedarray/Uint8Array#__uset
+    local.get $2
+    i32.const 4
+    local.get $3
+    i32.mul
+    i32.const 3
+    i32.add
+    i32.const 255
+    call $~lib/typedarray/Uint8Array#__uset
+    local.get $3
+    i32.const 1
+    i32.add
+    local.set $3
+    br $for-loop|0
+   end
+  end
+  local.get $2
+  local.set $6
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.add
+  global.set $~lib/memory/__stack_pointer
+  local.get $6
  )
  (func $export:assembly/index/getImageData (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
   (local $4 i32)
@@ -5220,8 +5331,8 @@
   global.set $~lib/memory/__stack_pointer
   local.get $3
  )
- (func $export:assembly/index/imgToGrayScale (param $0 i32) (param $1 i32) (result i32)
-  (local $2 i32)
+ (func $export:assembly/index/grayScale (param $0 i32) (result i32)
+  (local $1 i32)
   global.get $~lib/memory/__stack_pointer
   i32.const 4
   i32.sub
@@ -5231,13 +5342,50 @@
   local.get $0
   i32.store
   local.get $0
-  local.get $1
-  call $assembly/index/imgToGrayScale
-  local.set $2
+  call $assembly/index/grayScale
+  local.set $1
   global.get $~lib/memory/__stack_pointer
   i32.const 4
   i32.add
   global.set $~lib/memory/__stack_pointer
-  local.get $2
+  local.get $1
+ )
+ (func $export:assembly/index/monoToRGBA (param $0 i32) (result i32)
+  (local $1 i32)
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.sub
+  global.set $~lib/memory/__stack_pointer
+  call $~stack_check
+  global.get $~lib/memory/__stack_pointer
+  local.get $0
+  i32.store
+  local.get $0
+  call $assembly/index/monoToRGBA
+  local.set $1
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.add
+  global.set $~lib/memory/__stack_pointer
+  local.get $1
+ )
+ (func $export:assembly/index/imageToGrayScale (param $0 i32) (result i32)
+  (local $1 i32)
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.sub
+  global.set $~lib/memory/__stack_pointer
+  call $~stack_check
+  global.get $~lib/memory/__stack_pointer
+  local.get $0
+  i32.store
+  local.get $0
+  call $assembly/index/imageToGrayScale
+  local.set $1
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.add
+  global.set $~lib/memory/__stack_pointer
+  local.get $1
  )
 )

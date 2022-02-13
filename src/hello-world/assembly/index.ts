@@ -142,7 +142,7 @@ export function isPinTooClose(pinList: Int16Array, startIndex: i16, endIndex: i1
   return pinDist < 25;
 }
 
-export function imgToGrayScale(imgData: Uint8Array, imgWidth: i16): Uint8Array {
+export function grayScale(imgData: Uint8Array): Uint8Array {
   // grayscale = 0.299R + 0.587G + 0.114B.
   const len = <i16>(imgData.length / 4);
   const grayImage = new Uint8Array(len);
@@ -156,17 +156,19 @@ export function imgToGrayScale(imgData: Uint8Array, imgWidth: i16): Uint8Array {
   return grayImage;
 }
 
-/*
-function isLineDrawn(lineList, startPinIndex, endPinIndex) {
-  const lineFound = lineList.find(line => {
-    if (
-      (startPinIndex === line[0] && endPinIndex === line[1]) ||
-      (startPinIndex === line[1] && endPinIndex === line[0])
-    ) {
-      return true;
-    }
-    return false;
-  });
-  return Boolean(lineFound);
+export function monoToRGBA(imgData: Uint8Array): Uint8Array {
+  const len = imgData.length;
+  const image = new Uint8Array(len * 4);
+  for (let i = 0; i < len; i++) {
+    const value = unchecked(imgData[i]);
+    unchecked(image[4 * i] = value);
+    unchecked(image[4 * i + 1] = value);
+    unchecked(image[4 * i + 2] = value);
+    unchecked(image[4 * i + 3] = 255);
+  }
+  return image;
 }
-*/
+
+export function imageToGrayScale(imgData: Uint8Array): Uint8Array {
+  return monoToRGBA(grayScale(imgData));
+}
