@@ -20,7 +20,8 @@
   "dependencies": {
     "@assemblyscript/loader": "^0.19.22",
     "@jellybeanci/sleep": "^0.0.1",
-    "binaryen": "^104.0.0"
+    "binaryen": "^104.0.0",
+    "jimp" : "0.16.1"
   },
   "devDependencies": {
     "@types/node": "^17.0.8",

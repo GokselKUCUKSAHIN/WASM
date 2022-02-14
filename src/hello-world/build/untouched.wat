@@ -1,6 +1,6 @@
 (module
- (type $i32_i32_=>_none (func (param i32 i32)))
  (type $i32_=>_i32 (func (param i32) (result i32)))
+ (type $i32_i32_=>_none (func (param i32 i32)))
  (type $i32_=>_none (func (param i32)))
  (type $i32_i32_i32_=>_i32 (func (param i32 i32 i32) (result i32)))
  (type $i32_i32_=>_i32 (func (param i32 i32) (result i32)))
@@ -72,6 +72,7 @@
  (export "generatePinList" (func $assembly/index/generatePinList))
  (export "isDotOnLine" (func $assembly/index/isDotOnLine))
  (export "getPointListOnLineInt16" (func $assembly/index/getPointListOnLineInt16@varargs))
+ (export "createArray" (func $assembly/index/createArray))
  (export "__new" (func $~lib/rt/itcms/__new))
  (export "__pin" (func $~lib/rt/itcms/__pin))
  (export "__unpin" (func $~lib/rt/itcms/__unpin))
@@ -88,6 +89,8 @@
  (export "grayScale" (func $export:assembly/index/grayScale))
  (export "monoToRGBA" (func $export:assembly/index/monoToRGBA))
  (export "imageToGrayScale" (func $export:assembly/index/imageToGrayScale))
+ (export "doubleArray" (func $export:assembly/index/doubleArray))
+ (export "binarize" (func $export:assembly/index/binarize))
  (start $~start)
  (func $assembly/index/abs (param $0 i32) (result i32)
   local.get $0
@@ -5200,6 +5203,191 @@
   global.set $~lib/memory/__stack_pointer
   local.get $6
  )
+ (func $assembly/index/createArray (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.sub
+  global.set $~lib/memory/__stack_pointer
+  call $~stack_check
+  global.get $~lib/memory/__stack_pointer
+  i32.const 0
+  i32.store
+  global.get $~lib/memory/__stack_pointer
+  i32.const 0
+  local.get $0
+  call $~lib/typedarray/Uint8Array#constructor
+  local.tee $1
+  i32.store
+  i32.const 0
+  local.set $2
+  loop $for-loop|0
+   local.get $2
+   local.get $0
+   i32.lt_s
+   local.set $3
+   local.get $3
+   if
+    local.get $1
+    local.get $2
+    local.get $2
+    call $~lib/typedarray/Uint8Array#__uset
+    local.get $2
+    i32.const 1
+    i32.add
+    local.set $2
+    br $for-loop|0
+   end
+  end
+  local.get $1
+  local.set $4
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.add
+  global.set $~lib/memory/__stack_pointer
+  local.get $4
+ )
+ (func $assembly/index/doubleArray (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.sub
+  global.set $~lib/memory/__stack_pointer
+  call $~stack_check
+  global.get $~lib/memory/__stack_pointer
+  i32.const 0
+  i32.store
+  local.get $0
+  call $~lib/typedarray/Uint8Array#get:length
+  local.set $1
+  global.get $~lib/memory/__stack_pointer
+  i32.const 0
+  local.get $1
+  call $~lib/typedarray/Uint8Array#constructor
+  local.tee $2
+  i32.store
+  i32.const 0
+  local.set $3
+  loop $for-loop|0
+   local.get $3
+   local.get $1
+   i32.lt_s
+   local.set $4
+   local.get $4
+   if
+    local.get $2
+    local.get $3
+    local.get $0
+    local.get $3
+    call $~lib/typedarray/Uint8Array#__uget
+    i32.const 2
+    i32.mul
+    i32.const 255
+    i32.and
+    call $~lib/typedarray/Uint8Array#__uset
+    local.get $3
+    i32.const 1
+    i32.add
+    local.set $3
+    br $for-loop|0
+   end
+  end
+  local.get $2
+  local.set $5
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.add
+  global.set $~lib/memory/__stack_pointer
+  local.get $5
+ )
+ (func $assembly/index/binarize (param $0 i32) (result i32)
+  (local $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (local $6 i32)
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.sub
+  global.set $~lib/memory/__stack_pointer
+  call $~stack_check
+  global.get $~lib/memory/__stack_pointer
+  i32.const 0
+  i32.store
+  local.get $0
+  call $~lib/typedarray/Uint8Array#get:length
+  local.set $1
+  global.get $~lib/memory/__stack_pointer
+  i32.const 0
+  local.get $1
+  call $~lib/typedarray/Uint8Array#constructor
+  local.tee $2
+  i32.store
+  i32.const 0
+  local.set $3
+  loop $for-loop|0
+   local.get $3
+   local.get $1
+   i32.lt_s
+   local.set $4
+   local.get $4
+   if
+    local.get $0
+    local.get $3
+    call $~lib/typedarray/Uint8Array#__uget
+    i32.const 128
+    i32.lt_u
+    if (result i32)
+     i32.const 0
+    else
+     i32.const 255
+    end
+    local.set $5
+    local.get $2
+    local.get $3
+    local.get $5
+    call $~lib/typedarray/Uint8Array#__uset
+    local.get $2
+    local.get $3
+    i32.const 1
+    i32.add
+    local.get $5
+    call $~lib/typedarray/Uint8Array#__uset
+    local.get $2
+    local.get $3
+    i32.const 2
+    i32.add
+    local.get $5
+    call $~lib/typedarray/Uint8Array#__uset
+    local.get $2
+    local.get $3
+    i32.const 3
+    i32.add
+    i32.const 255
+    call $~lib/typedarray/Uint8Array#__uset
+    local.get $3
+    i32.const 4
+    i32.add
+    local.set $3
+    br $for-loop|0
+   end
+  end
+  local.get $2
+  local.set $6
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.add
+  global.set $~lib/memory/__stack_pointer
+  local.get $6
+ )
  (func $export:assembly/index/getImageData (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (result i32)
   (local $4 i32)
   global.get $~lib/memory/__stack_pointer
@@ -5381,6 +5569,44 @@
   i32.store
   local.get $0
   call $assembly/index/imageToGrayScale
+  local.set $1
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.add
+  global.set $~lib/memory/__stack_pointer
+  local.get $1
+ )
+ (func $export:assembly/index/doubleArray (param $0 i32) (result i32)
+  (local $1 i32)
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.sub
+  global.set $~lib/memory/__stack_pointer
+  call $~stack_check
+  global.get $~lib/memory/__stack_pointer
+  local.get $0
+  i32.store
+  local.get $0
+  call $assembly/index/doubleArray
+  local.set $1
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.add
+  global.set $~lib/memory/__stack_pointer
+  local.get $1
+ )
+ (func $export:assembly/index/binarize (param $0 i32) (result i32)
+  (local $1 i32)
+  global.get $~lib/memory/__stack_pointer
+  i32.const 4
+  i32.sub
+  global.set $~lib/memory/__stack_pointer
+  call $~stack_check
+  global.get $~lib/memory/__stack_pointer
+  local.get $0
+  i32.store
+  local.get $0
+  call $assembly/index/binarize
   local.set $1
   global.get $~lib/memory/__stack_pointer
   i32.const 4

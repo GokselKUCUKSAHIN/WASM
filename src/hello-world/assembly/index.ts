@@ -172,3 +172,33 @@ export function monoToRGBA(imgData: Uint8Array): Uint8Array {
 export function imageToGrayScale(imgData: Uint8Array): Uint8Array {
   return monoToRGBA(grayScale(imgData));
 }
+
+export function createArray(size: i32): Uint8Array {
+  const array = new Uint8Array(size);
+  for (let i = 0; i < size; i++) {
+    unchecked(array[i] = i);
+  }
+  return array;
+}
+
+export function doubleArray(source: Uint8Array): Uint8Array {
+  const len = source.length;
+  const array = new Uint8Array(len);
+  for (let i = 0; i < len; i++) {
+    unchecked(array[i] = source[i] * 2);
+  }
+  return array;
+}
+
+export function binarize(imgData: Uint8Array): Uint8Array {
+  const len = imgData.length;
+  const resultArr = new Uint8Array(len);
+  for (let i = 0; i < len; i += 4) {
+    const value = unchecked(imgData[i]) < 128 ? 0 : 255;
+    unchecked(resultArr[i] = value);      // R
+    unchecked(resultArr[i + 1] = value);  // G
+    unchecked(resultArr[i + 2] = value);  // B
+    unchecked(resultArr[i + 3] = 255); // Alpha
+  }
+  return resultArr;
+}
