@@ -1,5 +1,4 @@
 // The entry file of your WebAssembly module.
-
 export const Uint16Array_ID = idof<Uint16Array>();
 export const Uint8Array_ID = idof<Uint8Array>();
 export const Float32Array_ID = idof<Float32Array>();

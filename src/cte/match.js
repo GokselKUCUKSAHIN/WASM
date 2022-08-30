@@ -1,6 +1,9 @@
+function checkArray(array) {
+  return array === undefined || !Array.isArray(array);
+}
+
 function eq(array, other) {
-  if (array === undefined || !Array.isArray(array)) return false;
-  if (other === undefined || !Array.isArray(other)) return false;
+  if(checkArray(array) || checkArray(array)) return false;
   if (array.length !== other.length) return false;
   let flag = true;
   for (let i = 0; i < array.length && flag; i++)

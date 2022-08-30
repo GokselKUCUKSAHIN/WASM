@@ -57,11 +57,11 @@ async function editImage(image, imgData) {
   const grayImgPtr = imageToGrayScale(imgPtr);
   const binarizeImgPtr = binarize(grayImgPtr);
   const grayImage = __getArray(binarizeImgPtr);
+  // console.log(grayImage);
   await editImage(image, grayImage);
   image.write("ibobin.jpeg")
   __unpin(imgPtr);
 })();
-
 
 // function getRand() {
 //   return Math.random() * 100 + 50;
