@@ -73,6 +73,8 @@
  (export "isDotOnLine" (func $assembly/index/isDotOnLine))
  (export "getPointListOnLineInt16" (func $assembly/index/getPointListOnLineInt16@varargs))
  (export "createArray" (func $assembly/index/createArray))
+ (export "gscale" (func $assembly/index/gscale))
+ (export "imbin" (func $assembly/index/imbin))
  (export "__new" (func $~lib/rt/itcms/__new))
  (export "__pin" (func $~lib/rt/itcms/__pin))
  (export "__unpin" (func $~lib/rt/itcms/__unpin))
@@ -4165,6 +4167,158 @@
   i32.extend16_s
   i32.const 25
   i32.lt_s
+ )
+ (func $assembly/index/toGray (param $0 i32) (param $1 i32) (param $2 i32) (result i32)
+  local.get $0
+  f64.convert_i32_u
+  f64.const 0.2126
+  f64.mul
+  local.get $1
+  f64.convert_i32_u
+  f64.const 0.7152
+  f64.mul
+  f64.add
+  local.get $2
+  f64.convert_i32_u
+  f64.const 0.0722
+  f64.mul
+  f64.add
+  i32.trunc_f64_u
+ )
+ (func $assembly/index/gscale (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (local $6 i32)
+  (local $7 i32)
+  i32.const 0
+  local.set $2
+  loop $for-loop|0
+   local.get $2
+   local.get $0
+   local.get $1
+   i32.mul
+   i32.const 4
+   i32.mul
+   i32.lt_s
+   local.set $3
+   local.get $3
+   if
+    local.get $2
+    i32.load8_u
+    local.set $4
+    local.get $2
+    i32.const 1
+    i32.add
+    i32.load8_u
+    local.set $5
+    local.get $2
+    i32.const 2
+    i32.add
+    i32.load8_u
+    local.set $6
+    local.get $4
+    local.get $5
+    local.get $6
+    call $assembly/index/toGray
+    local.set $7
+    local.get $2
+    local.get $7
+    i32.store8
+    local.get $2
+    i32.const 1
+    i32.add
+    local.get $7
+    i32.store8
+    local.get $2
+    i32.const 2
+    i32.add
+    local.get $7
+    i32.store8
+    local.get $2
+    i32.const 4
+    i32.add
+    local.set $2
+    br $for-loop|0
+   end
+  end
+ )
+ (func $assembly/index/imbin (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  (local $4 i32)
+  (local $5 i32)
+  (local $6 i32)
+  (local $7 i32)
+  (local $8 i32)
+  i32.const 0
+  local.set $2
+  loop $for-loop|0
+   local.get $2
+   local.get $0
+   local.get $1
+   i32.mul
+   i32.const 4
+   i32.mul
+   i32.lt_s
+   local.set $3
+   local.get $3
+   if
+    local.get $2
+    i32.load8_u
+    local.set $4
+    local.get $2
+    i32.const 1
+    i32.add
+    i32.load8_u
+    local.set $5
+    local.get $2
+    i32.const 2
+    i32.add
+    i32.load8_u
+    local.set $6
+    local.get $4
+    local.get $5
+    local.get $6
+    call $assembly/index/toGray
+    local.set $7
+    local.get $7
+    i32.const 255
+    i32.and
+    i32.const 128
+    i32.lt_u
+    if (result i32)
+     i32.const 0
+    else
+     i32.const 255
+    end
+    local.set $8
+    local.get $2
+    local.get $8
+    i32.store8
+    local.get $2
+    i32.const 1
+    i32.add
+    local.get $8
+    i32.store8
+    local.get $2
+    i32.const 2
+    i32.add
+    local.get $8
+    i32.store8
+    local.get $2
+    i32.const 3
+    i32.add
+    i32.const 255
+    i32.store8
+    local.get $2
+    i32.const 4
+    i32.add
+    local.set $2
+    br $for-loop|0
+   end
+  end
  )
  (func $assembly/index/getPointListOnLineInt16@varargs (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)
   block $1of1

@@ -1,5 +1,7 @@
 const {
   imageToGrayScale,
+  gscale,
+  imbin,
   grayScale,
   createArray,
   doubleArray,
@@ -8,7 +10,8 @@ const {
   __unpin,
   __newArray,
   __getArray,
-  Uint8Array_ID
+  Uint8Array_ID,
+  memory
 } = require("..");
 
 const jimp = require('jimp');
@@ -26,6 +29,15 @@ async function imageToArray(image) {
       }
     }
     return Promise.resolve(row);
+  } catch (err) {
+    return Promise.reject(err);
+  }
+}
+
+async function imageToUInt8(image) {
+  try {
+    image.rgba(false);
+    return Promise.resolve(new Uint8ClampedArray(image.bitmap.data));
   } catch (err) {
     return Promise.reject(err);
   }
@@ -49,19 +61,38 @@ async function editImage(image, imgData) {
   }
 }
 
+function copyData(src, dest) {
+  for (let i = 0; i < src.length; i++)
+    dest[i] = src[i];
+}
 
 (async _ => {
-  const image = await jimp.read("./baboon.jpeg");
-  const imgArray = await imageToArray(image);
-  const imgPtr = __pin(__newArray(Uint8Array_ID, [...imgArray]));
-  const grayImgPtr = imageToGrayScale(imgPtr);
-  const binarizeImgPtr = binarize(grayImgPtr);
-  const grayImage = __getArray(binarizeImgPtr);
-  // console.log(grayImage);
-  await editImage(image, grayImage);
+  const image = await jimp.read("./baboon640.jpeg");
+  const w = image.bitmap.width;
+  const h = image.bitmap.height;
+  const imgArray = await imageToUInt8(image);
+  const bytes = new Uint8ClampedArray(memory.buffer);
+  console.log("Bytes:", bytes.length)
+  copyData(imgArray, bytes);
+  // gscale(640, 640);
+  imbin(w, h);
+  // const grayImage = new Uint8ClampedArray(imgArray.length);
+  // copyData(bytes, grayImage);
+  await editImage(image, bytes);
   image.write("ibobin.jpeg")
-  __unpin(imgPtr);
+
+
+  // console.log(grayImage);
+
+  // const imgPtr = __pin(__newArray(Uint8Array_ID, [...imgArray]));
+  // const grayImgPtr = imageToGrayScale(imgPtr);
+  // const binarizeImgPtr = binarize(grayImgPtr);
+  // const grayImage = __getArray(binarizeImgPtr);
+  // await editImage(image, grayImage);
+  // image.write("ibobin.jpeg")
+  // __unpin(imgPtr);
 })();
+
 
 // function getRand() {
 //   return Math.random() * 100 + 50;

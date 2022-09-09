@@ -2,8 +2,8 @@
  (type $i32_=>_i32 (func (param i32) (result i32)))
  (type $i32_=>_none (func (param i32)))
  (type $none_=>_none (func))
- (type $i32_i32_i32_=>_i32 (func (param i32 i32 i32) (result i32)))
  (type $i32_i32_=>_none (func (param i32 i32)))
+ (type $i32_i32_i32_=>_i32 (func (param i32 i32 i32) (result i32)))
  (type $i32_i32_=>_i32 (func (param i32 i32) (result i32)))
  (type $f32_=>_f32 (func (param f32) (result f32)))
  (type $i32_i32_i32_i32_i32_=>_i32 (func (param i32 i32 i32 i32 i32) (result i32)))
@@ -15,6 +15,21 @@
  (type $i32_i32_i32_i32_i32_=>_none (func (param i32 i32 i32 i32 i32)))
  (type $i32_i32_i32_i32_i32_i32_i32_=>_i32 (func (param i32 i32 i32 i32 i32 i32 i32) (result i32)))
  (type $i32_i32_i32_i32_i32_i32_i32_=>_none (func (param i32 i32 i32 i32 i32 i32 i32)))
+ (import "env" "memory" (memory $0 1))
+ (data (i32.const 1036) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\1c\00\00\00I\00n\00v\00a\00l\00i\00d\00 \00l\00e\00n\00g\00t\00h\00")
+ (data (i32.const 1084) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00&\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00b\00u\00f\00f\00e\00r\00.\00t\00s\00\00\00\00\00\00\00")
+ (data (i32.const 1148) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00(\00\00\00A\00l\00l\00o\00c\00a\00t\00i\00o\00n\00 \00t\00o\00o\00 \00l\00a\00r\00g\00e\00\00\00\00\00")
+ (data (i32.const 1212) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00 \00\00\00~\00l\00i\00b\00/\00r\00t\00/\00i\00t\00c\00m\00s\00.\00t\00s\00\00\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 1280) "\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 1312) "\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 1340) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00$\00\00\00I\00n\00d\00e\00x\00 \00o\00u\00t\00 \00o\00f\00 \00r\00a\00n\00g\00e\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 1404) ",\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\14\00\00\00~\00l\00i\00b\00/\00r\00t\00.\00t\00s\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 1456) "\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 1484) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00\1e\00\00\00~\00l\00i\00b\00/\00r\00t\00/\00t\00l\00s\00f\00.\00t\00s\00\00\00\00\00\00\00\00\00\00\00\00\00\00\00")
+ (data (i32.const 1552) ")\15DNn\83\f9\a2\c0\dd4\f5\d1W\'\fcA\90C<\99\95b\dba\c5\bb\de\abcQ\fe")
+ (data (i32.const 1596) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00*\00\00\00O\00b\00j\00e\00c\00t\00 \00a\00l\00r\00e\00a\00d\00y\00 \00p\00i\00n\00n\00e\00d\00\00\00")
+ (data (i32.const 1660) "<\00\00\00\00\00\00\00\00\00\00\00\01\00\00\00(\00\00\00O\00b\00j\00e\00c\00t\00 \00i\00s\00 \00n\00o\00t\00 \00p\00i\00n\00n\00e\00d\00\00\00\00\00")
+ (data (i32.const 1728) "\07\00\00\00 \00\00\00\00\00\00\00 \00\00\00\00\00\00\00\00\00\00\00\00\00\00\00\81\00\00\00\02\00\00\00A\00\00\00\02\00\00\00\01\19\00\00\02\00\00\00\81\08\00\00\02\00\00\00")
  (import "env" "abort" (func $~lib/builtins/abort (param i32 i32 i32 i32)))
  (global $assembly/index/Uint16Array_ID i32 (i32.const 3))
  (global $assembly/index/Uint8Array_ID i32 (i32.const 4))
@@ -33,28 +48,6 @@
  (global $~argumentsLength (mut i32) (i32.const 0))
  (global $~lib/rt/__rtti_base i32 (i32.const 1728))
  (global $~lib/memory/__stack_pointer (mut i32) (i32.const 18172))
- (memory $0 1)
- (data (i32.const 1036) ",")
- (data (i32.const 1048) "\01\00\00\00\1c\00\00\00I\00n\00v\00a\00l\00i\00d\00 \00l\00e\00n\00g\00t\00h")
- (data (i32.const 1084) "<")
- (data (i32.const 1096) "\01\00\00\00&\00\00\00~\00l\00i\00b\00/\00a\00r\00r\00a\00y\00b\00u\00f\00f\00e\00r\00.\00t\00s")
- (data (i32.const 1148) "<")
- (data (i32.const 1160) "\01\00\00\00(\00\00\00A\00l\00l\00o\00c\00a\00t\00i\00o\00n\00 \00t\00o\00o\00 \00l\00a\00r\00g\00e")
- (data (i32.const 1212) "<")
- (data (i32.const 1224) "\01\00\00\00 \00\00\00~\00l\00i\00b\00/\00r\00t\00/\00i\00t\00c\00m\00s\00.\00t\00s")
- (data (i32.const 1340) "<")
- (data (i32.const 1352) "\01\00\00\00$\00\00\00I\00n\00d\00e\00x\00 \00o\00u\00t\00 \00o\00f\00 \00r\00a\00n\00g\00e")
- (data (i32.const 1404) ",")
- (data (i32.const 1416) "\01\00\00\00\14\00\00\00~\00l\00i\00b\00/\00r\00t\00.\00t\00s")
- (data (i32.const 1484) "<")
- (data (i32.const 1496) "\01\00\00\00\1e\00\00\00~\00l\00i\00b\00/\00r\00t\00/\00t\00l\00s\00f\00.\00t\00s")
- (data (i32.const 1552) ")\15DNn\83\f9\a2\c0\dd4\f5\d1W\'\fcA\90C<\99\95b\dba\c5\bb\de\abcQ\fe")
- (data (i32.const 1596) "<")
- (data (i32.const 1608) "\01\00\00\00*\00\00\00O\00b\00j\00e\00c\00t\00 \00a\00l\00r\00e\00a\00d\00y\00 \00p\00i\00n\00n\00e\00d")
- (data (i32.const 1660) "<")
- (data (i32.const 1672) "\01\00\00\00(\00\00\00O\00b\00j\00e\00c\00t\00 \00i\00s\00 \00n\00o\00t\00 \00p\00i\00n\00n\00e\00d")
- (data (i32.const 1728) "\07\00\00\00 \00\00\00\00\00\00\00 ")
- (data (i32.const 1756) "\81\00\00\00\02\00\00\00A\00\00\00\02\00\00\00\01\19\00\00\02\00\00\00\81\08\00\00\02")
  (export "Uint16Array_ID" (global $assembly/index/Uint16Array_ID))
  (export "Uint8Array_ID" (global $assembly/index/Uint8Array_ID))
  (export "Float32Array_ID" (global $assembly/index/Float32Array_ID))
@@ -63,6 +56,8 @@
  (export "isDotOnLine" (func $assembly/index/isDotOnLine))
  (export "getPointListOnLineInt16" (func $assembly/index/getPointListOnLineInt16@varargs))
  (export "createArray" (func $assembly/index/createArray))
+ (export "gscale" (func $assembly/index/gscale))
+ (export "imbin" (func $assembly/index/imbin))
  (export "__new" (func $~lib/rt/itcms/__new))
  (export "__pin" (func $~lib/rt/itcms/__pin))
  (export "__unpin" (func $~lib/rt/itcms/__unpin))
@@ -2728,6 +2723,118 @@
    f32.gt
    select
    i32.eqz
+  end
+ )
+ (func $assembly/index/gscale (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  loop $for-loop|0
+   local.get $0
+   local.get $1
+   i32.mul
+   i32.const 2
+   i32.shl
+   local.get $2
+   i32.gt_s
+   if
+    local.get $2
+    local.get $2
+    i32.load8_u
+    f64.convert_i32_u
+    f64.const 0.2126
+    f64.mul
+    local.get $2
+    i32.const 1
+    i32.add
+    i32.load8_u
+    f64.convert_i32_u
+    f64.const 0.7152
+    f64.mul
+    f64.add
+    local.get $2
+    i32.const 2
+    i32.add
+    i32.load8_u
+    f64.convert_i32_u
+    f64.const 0.0722
+    f64.mul
+    f64.add
+    i32.trunc_f64_u
+    local.tee $3
+    i32.store8
+    local.get $2
+    local.get $3
+    i32.store8 offset=1
+    local.get $2
+    local.get $3
+    i32.store8 offset=2
+    local.get $2
+    i32.const 4
+    i32.add
+    local.set $2
+    br $for-loop|0
+   end
+  end
+ )
+ (func $assembly/index/imbin (param $0 i32) (param $1 i32)
+  (local $2 i32)
+  (local $3 i32)
+  loop $for-loop|0
+   local.get $0
+   local.get $1
+   i32.mul
+   i32.const 2
+   i32.shl
+   local.get $2
+   i32.gt_s
+   if
+    local.get $2
+    i32.const 0
+    i32.const 255
+    local.get $2
+    i32.load8_u
+    f64.convert_i32_u
+    f64.const 0.2126
+    f64.mul
+    local.get $2
+    i32.const 1
+    i32.add
+    i32.load8_u
+    f64.convert_i32_u
+    f64.const 0.7152
+    f64.mul
+    f64.add
+    local.get $2
+    i32.const 2
+    i32.add
+    i32.load8_u
+    f64.convert_i32_u
+    f64.const 0.0722
+    f64.mul
+    f64.add
+    i32.trunc_f64_u
+    i32.const 255
+    i32.and
+    i32.const 128
+    i32.lt_u
+    select
+    local.tee $3
+    i32.store8
+    local.get $2
+    local.get $3
+    i32.store8 offset=1
+    local.get $2
+    local.get $3
+    i32.store8 offset=2
+    local.get $2
+    i32.const 255
+    i32.store8 offset=3
+    local.get $2
+    i32.const 4
+    i32.add
+    local.set $2
+    br $for-loop|0
+   end
   end
  )
  (func $assembly/index/getPointListOnLineInt16@varargs (param $0 i32) (param $1 i32) (param $2 i32) (param $3 i32) (param $4 i32) (result i32)

@@ -7,7 +7,8 @@
     "test": "node tests",
     "asbuild:untouched": "asc assembly/index.ts --target debug --exportRuntime",
     "asbuild:optimized": "asc assembly/index.ts --target release --exportRuntime",
-    "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized"
+    "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
+    "asbuild:mem": "npm run asbuild:untouched && npm run asbuild:optimized -- --importMemory"
   },
   "keywords": [
     "assembly",
@@ -18,13 +19,13 @@
   "author": "Goksel KUCUKSAHIN <gokselkucuksahin@gmail.com> (https://github.com/GokselKUCUKSAHIN)",
   "license": "MIT",
   "dependencies": {
-    "@assemblyscript/loader": "^0.21.2",
+    "@assemblyscript/loader": "^0.19.22",
     "@jellybeanci/sleep": "^0.0.1",
-    "binaryen": "^109.0.0",
-    "jimp" : "0.16.1"
+    "binaryen": "^104.0.0",
+    "jimp": "0.16.1"
   },
   "devDependencies": {
-    "@types/node": "^18.7.13",
-    "assemblyscript": "^0.21.2"
+    "@types/node": "^17.0.8",
+    "assemblyscript": "^0.19.22"
   }
 }
